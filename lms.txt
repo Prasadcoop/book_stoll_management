@@ -1,0 +1,96 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 81
+Server version: 8.0.26 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use book_stoll;
+Database changed
+mysql> create table details(
+    -> bookno int auto_increment primary key,
+    -> bid int,
+    -> name varchar(255),
+    -> writer varchar(255),
+    -> qty int,
+    -> price int);
+Query OK, 0 rows affected (1.53 sec)
+
+mysql> desc details;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| bookno | int          | NO   | PRI | NULL    | auto_increment |
+| bid    | int          | YES  |     | NULL    |                |
+| name   | varchar(255) | YES  |     | NULL    |                |
+| writer | varchar(255) | YES  |     | NULL    |                |
+| qty    | int          | YES  |     | NULL    |                |
+| price  | int          | YES  |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+6 rows in set (0.12 sec)
+
+mysql> create table info(
+    -> bookno int,
+    -> bid int,
+    -> name varchar(255),
+    -> foreign key(bookno) references details(bookno));
+Query OK, 0 rows affected (0.95 sec)
+
+mysql> select * from details;
++--------+------+-----------------+------------------+------+-------+---------------------+
+| bookno | bid  | name            | writer           | qty  | price | dateofissue         |
++--------+------+-----------------+------------------+------+-------+---------------------+
+|      1 |    1 | python          | GUIDO Van Rossum |  395 |   100 | 2021-12-11 15:49:05 |
+|      2 |    5 | JAVA            | James Gosling    |  400 |    70 | 2021-12-11 16:22:53 |
+|      3 |   10 | MySql           | michael widenius |  190 |    90 | 2021-12-11 16:27:35 |
+|      4 |   15 | Programming Car | Michal shane     |  300 |   120 | 2021-12-11 16:28:55 |
+|      5 |    9 | django          | Adrian holovaty  |  250 |    65 | 2021-12-11 16:32:46 |
++--------+------+-----------------+------------------+------+-------+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> desc info;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| bookno | int          | YES  | MUL | NULL    |       |
+| bid    | int          | YES  |     | NULL    |       |
+| name   | varchar(255) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+3 rows in set (0.43 sec)
+
+mysql> alter table details
+    -> add dateofissue datetime default now();
+Query OK, 0 rows affected (0.58 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc details;
++-------------+--------------+------+-----+-------------------+-------------------+
+| Field       | Type         | Null | Key | Default           | Extra             |
++-------------+--------------+------+-----+-------------------+-------------------+
+| bookno      | int          | NO   | PRI | NULL              | auto_increment    |
+| bid         | int          | YES  |     | NULL              |                   |
+| name        | varchar(255) | YES  |     | NULL              |                   |
+| writer      | varchar(255) | YES  |     | NULL              |                   |
+| qty         | int          | YES  |     | NULL              |                   |
+| price       | int          | YES  |     | NULL              |                   |
+| dateofissue | datetime     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++-------------+--------------+------+-----+-------------------+-------------------+
+7 rows in set (0.12 sec)
+
+mysql> select * from details;
++--------+------+-----------------+------------------+------+-------+---------------------+
+| bookno | bid  | name            | writer           | qty  | price | dateofissue         |
++--------+------+-----------------+------------------+------+-------+---------------------+
+|      1 |    1 | python          | GUIDO Van Rossum |  395 |   100 | 2021-12-11 15:49:05 |
+|      2 |    5 | JAVA            | James Gosling    |  400 |    70 | 2021-12-11 16:22:53 |
+|      3 |   10 | MySql           | michael widenius |  190 |    90 | 2021-12-11 16:27:35 |
+|      4 |   15 | Programming Car | Michal shane     |  300 |   120 | 2021-12-11 16:28:55 |
+|      5 |    9 | django          | Adrian holovaty  |  247 |    65 | 2021-12-11 16:32:46 |
++--------+------+-----------------+------------------+------+-------+---------------------+
+5 rows in set (0.11 sec)
